@@ -14,7 +14,7 @@ use Wwrf\MobileApp\Models\Variant;
 class Installs extends Controller
 {
   public $implement = [
-      'Wwrf.Rest.Behaviors.RestController'
+      'Wwrf.MobileApp.Behaviors.RestController'
   ];
 
   public $restConfig = 'config_rest.yaml';
