@@ -27,7 +27,7 @@ class VariantModel extends ModelBehavior
         parent::__construct($parent);
         $this->parent = $parent;
 
-        if (!array_key_exists('variant', $parent -> belongsTo)) {
+        if (!array_key_exists('variant', $parent->belongsTo)) {
             throw new ApplicationException('Ensure that ' . get_class($parent) . ' contains variant in belongsTo relation array.');
         }
     }

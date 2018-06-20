@@ -60,7 +60,7 @@ class RestController extends ControllerBehavior
     public function __construct($controller)
     {
         parent::__construct($controller);
-        $this -> controller = $controller;
+        $this->controller = $controller;
 
         /*
          * Build configuration
@@ -108,7 +108,7 @@ class RestController extends ControllerBehavior
             return response()->json($model->with($relations)->paginate($pageSize, $page), 200);
         }
         catch (Exception $ex) {
-            return response()->json($ex -> getMessage(), 400);
+            return response()->json($ex->getMessage(), 400);
         }
     }
 
@@ -133,10 +133,10 @@ class RestController extends ControllerBehavior
             return response()->json($model, 200);
         }
         catch(ModelException $ex) {
-            return response()->json($ex -> getMessage(), 400);
+            return response()->json($ex->getMessage(), 400);
         }
         catch (Exception $ex) {
-            return response()->json($ex -> getMessage(), 400);
+            return response()->json($ex->getMessage(), 400);
         }
     }
 
@@ -155,15 +155,15 @@ class RestController extends ControllerBehavior
 
             // Get relations too
             foreach($relations as $relation)
-              $model -> {$relation};
+              $model->{$relation};
 
             return response()->json($model, 200);
         }
         catch(ModelException $ex) {
-            return response()->json($ex -> getMessage(), 400);
+            return response()->json($ex->getMessage(), 400);
         }
         catch (Exception $ex) {
-            return response()->json($ex -> getMessage(), 400);
+            return response()->json($ex->getMessage(), 400);
         }
     }
 
@@ -188,10 +188,10 @@ class RestController extends ControllerBehavior
             return response()->json($model, 200);
         }
         catch(ModelException $ex) {
-            return response()->json($ex -> getMessage(), 400);
+            return response()->json($ex->getMessage(), 400);
         }
         catch (Exception $ex) {
-            return response()->json($ex -> getMessage(), 400);
+            return response()->json($ex->getMessage(), 400);
         }
     }
 
@@ -205,14 +205,14 @@ class RestController extends ControllerBehavior
     {
         try {
             $model = $this->controller->findModelObject($recordId);
-            $model -> delete();
+            $model->delete();
             return response()->json($model, 200);
         }
         catch(ModelException $ex) {
-            return response()->json($ex -> getMessage(), 400);
+            return response()->json($ex->getMessage(), 400);
         }
         catch (Exception $ex) {
-            return response()->json($ex -> getMessage(), 400);
+            return response()->json($ex->getMessage(), 400);
         }
     }
 
@@ -260,7 +260,7 @@ class RestController extends ControllerBehavior
     public static function getBeforeFilters() {return [];}
     public static function getMiddleware() {return [];}
     public function callAction($method, $parameters = false) {
-      $action = Str::camel($this -> prefix . ' ' . $method);
+      $action = Str::camel($this->prefix . ' ' . $method);
       if (method_exists($this->controller, $action) && is_callable(array($this->controller, $action)) && array_key_exists($method, $this->config->allowedActions))
       {
         return call_user_func_array(array($this->controller, $action), $parameters);

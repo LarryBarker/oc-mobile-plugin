@@ -32,7 +32,7 @@ class Dropdown extends WidgetBase
     public function __construct($controller, $listItems = [], $defaultError = self::DEFAULT_ERROR)
     {
         parent::__construct($controller);
-        $this -> listItems = $listItems;
+        $this->listItems = $listItems;
         $this->defaultError = $defaultError;
     }
 
@@ -61,7 +61,7 @@ class Dropdown extends WidgetBase
          * Save or reset dropdown index in session
          */
         $this->setActiveIndex(post('index'));
-        $widgetId = '#' . $this -> getId();
+        $widgetId = '#' . $this->getId();
         $listId = '#' . $this->controller->listGetWidget()->getId();
         $listRefreshData = $this->controller->listRefresh();
 

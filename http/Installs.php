@@ -34,7 +34,7 @@ class Installs extends Controller
           if (!$beforeSaveResponse instanceof \Illuminate\Http\JsonResponse)
             throw new ApplicationException('The event wwrf.mobileapp.beforeSave can only return JsonResponse');
 
-          if ($beforeSaveResponse -> getStatusCode() == 400)
+          if ($beforeSaveResponse->getStatusCode() == 400)
             return $beforeSaveResponse;
         }
 
@@ -52,7 +52,7 @@ class Installs extends Controller
       }
 
       // Maintenance mode logic
-      $variant = Variant::where('package', '=', $package) -> first();
+      $variant = Variant::where('package', '=', $package)->first();
       if ($variant->is_maintenance)
         return response()->json($variant->app->maintenance_message, 503);
 
@@ -70,7 +70,7 @@ class Installs extends Controller
             if(!$afterSaveResponse instanceof \Illuminate\Http\JsonResponse)
               throw new ApplicationException('The event wwrf.mobileapp.afterSave can only return JsonResponse');
 
-            if($afterSaveResponse -> getStatusCode() == 400)
+            if($afterSaveResponse->getStatusCode() == 400)
               return $afterSaveResponse;
           }
 
@@ -80,7 +80,7 @@ class Installs extends Controller
           // See if this is due to conflict, if so update the last_login time and return success
           if (($existingInstall = Install::where('instance_id','=',$instance_id)->where('variant_id','=',$variant->id)->first()) != null)
             {
-                $existingInstall -> touchLastSeen();
+                $existingInstall->touchLastSeen();
                 return response()->json('existing-install', 200);
             }
 

@@ -34,9 +34,9 @@ class ApiInstallTest extends PluginTestCase
         $platform = Platform::create(['name' => 'Acme']);
 
         $app = AppModel::create(['name' => 'Sample App', 'description' => 'This is a sample app.', 'maintenance_message' => 'Sorry, our servers are under maintenance. Please try again in a couple hours.']);
-        $variant = Variant::create(['app_id' => $app -> id, 'package' => 'com.acme.test', 'platform_id' => $platform -> id, 'description' => 'Sample Prod']);
+        $variant = Variant::create(['app_id' => $app->id, 'package' => 'com.acme.test', 'platform_id' => $platform->id, 'description' => 'Sample Prod']);
 
-        $app -> variants() -> save($variant);
+        $app->variants()->save($variant);
     }
 
     public function testInstallApiForNewInstall()
@@ -46,7 +46,7 @@ class ApiInstallTest extends PluginTestCase
         'package' => 'com.acme.test'
       ];
 
-      $response = $this -> json('POST', 'api/v1/installs', [
+      $response = $this->json('POST', 'api/v1/installs', [
           'instance_id' => array_get($data, 'instance_id'),
           'package' => array_get($data, 'package'),
       ]);
@@ -57,10 +57,10 @@ class ApiInstallTest extends PluginTestCase
       $this->seeJson(['new-install']);
 
       // Verify if data has been added to database
-      $variant = Variant::where('package', '=', array_get($data, 'package')) -> first();
+      $variant = Variant::where('package', '=', array_get($data, 'package'))->first();
       $this->seeInDatabase('wwrf_mobile_installs', [
         'instance_id' => array_get($data, 'instance_id'),
-        'variant_id' => $variant -> id
+        'variant_id' => $variant->id
       ]);
 
     }

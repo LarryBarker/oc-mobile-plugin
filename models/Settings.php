@@ -26,7 +26,7 @@ class Settings extends Model
 
     public function beforeFetch()
     {
-        $this -> initSettingsData();
+        $this->initSettingsData();
     }
 
     public function getProviderOptions()

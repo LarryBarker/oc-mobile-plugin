@@ -44,7 +44,7 @@ class Installs extends Controller
       if(!$beforeSaveResponse instanceof \Illuminate\Http\JsonResponse)
         throw new ApplicationException('The event wwrf.mobileapp.beforeSave can only return JsonResponse');
 
-      if($beforeSaveResponse -> getStatusCode() == 400)
+      if($beforeSaveResponse->getStatusCode() == 400)
         return json_encode($beforeSaveResponse);
 
     }
@@ -91,7 +91,7 @@ class Installs extends Controller
         if(!$afterSaveResponse instanceof \Illuminate\Http\JsonResponse)
           throw new ApplicationException('The event wwrf.mobileapp.afterSave can only return JsonResponse');
 
-        if($afterSaveResponse -> getStatusCode() == 400)
+        if($afterSaveResponse->getStatusCode() == 400)
           return json_encode('Error 400');
       }
 

@@ -71,10 +71,10 @@ class DefaultProvider extends ProviderBase
 
         try {
 
-            $install = Install::where('instance_id', '=', $data['instance_id']) -> first();
+            $install = Install::where('instance_id', '=', $data['instance_id'])->first();
 
             $user = Auth::authenticate($credentials, true);
-            $user -> mobileuser_installs() -> save($install);
+            $user->mobileuser_installs()->save($install);
 
             /*
             * Return the user record on successful login
@@ -126,8 +126,8 @@ class DefaultProvider extends ProviderBase
 
             Validator::extend('registration_enabled', function ($attribute, $value, $parameters, $validator)
             {
-                if($variant = Variant::where('package', '=', $value) -> first()) {
-                  if($variant -> disable_registration)
+                if($variant = Variant::where('package', '=', $value)->first()) {
+                  if($variant->disable_registration)
                     throw new ValidationException(['package' => trans('wwrf.user::lang.variants.registration_disabled')]);
                   return true;
                 }

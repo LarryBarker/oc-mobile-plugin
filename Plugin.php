@@ -153,7 +153,7 @@ class Plugin extends PluginBase
             $providers = ProviderManager::instance()->listProviderObjects();
             foreach($providers as $provider)
               {
-                  $config = $provider -> getFieldConfig();
+                  $config = $provider->getFieldConfig();
                   if(!is_null($config))
                       $form->addFields($config);
               }
