@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Version
+
+# Model Form Field configuration
+form: $/wwrf/mobileapp/models/version/fields.yaml
+
+# Model Class name
+modelClass: Wwrf\MobileApp\Models\Version
+
+# Default redirect location
+defaultRedirect: wwrf/mobileapp/versions
+
+# Create page
+create:
+    title: Create Version
+    redirect: wwrf/mobileapp/versions/update/:id
+    redirectClose: wwrf/mobileapp/versions
+
+# Update page
+update:
+    title: Edit Version
+    redirect: wwrf/mobileapp/versions
+    redirectClose: wwrf/mobileapp/versions
+
+# Preview page
+preview:
+    title: Preview Version

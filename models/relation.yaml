@@ -1,0 +1,13 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+mobileuser_installs:
+    label: wwrf.mobileapp::lang.users.mobileuser_installs_label
+    readOnly: true
+    view:
+        list: $/wwrf/mobileapp/models/install/columns.yaml
+        toolbarButtons: delete
+    manage:
+        title: wwrf.mobileapp::lang.users.mobileuser_installs_label
+        form: $/wwrf/mobileapp/models/install/fields.yaml

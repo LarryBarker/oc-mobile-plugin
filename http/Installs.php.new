@@ -1,0 +1,113 @@
+<?php namespace Wwrf\MobileApp\Http;
+
+use Event;
+use Input;
+use Validator;
+use ApplicationException;
+use Backend\Classes\Controller;
+use Wwrf\MobileApp\Models\Install;
+use Wwrf\MobileApp\Models\Variant;
+
+/**
+ * Installs Back-end Controller
+ */
+class Installs extends Controller
+{
+  public $implement = [
+      'Wwrf.Rest.Behaviors.RestController'
+  ];
+
+  public $restConfig = 'config_rest.yaml';
+
+  public function store()
+  {
+    //$data = Input::all();
+
+    $json = json_encode(post());
+
+    $data = json_decode($json, true);
+
+    $instance_id = $data['instance_id'];
+
+    $package = $data['package'];
+
+    // Extensibility - Fire beforeSave Event
+    $beforeSaveResponses = Event::fire(
+      'wwrf.mobileapp.beforeSave', [
+        $instance_id, 
+        $package
+      ]
+    );
+
+    foreach($beforeSaveResponses as $beforeSaveResponse) {
+      
+      if(!$beforeSaveResponse instanceof \Illuminate\Http\JsonResponse)
+        throw new ApplicationException('The event wwrf.mobileapp.beforeSave can only return JsonResponse');
+
+      if($beforeSaveResponse -> getStatusCode() == 400)
+        return json_encode($beforeSaveResponse);
+
+    }
+
+    /*
+    * Validate input
+    */
+    $rules = [];
+
+    $rules['instance_id'] = 'required|max:16|string';
+    $rules['package'] = 'required|regex:/^[a-z0-9]*(\.[a-z0-9]+)+[0-9a-z]$/|exists:wwrf_mobile_variants,package';
+
+    $validation = Validator::make($data, $rules);
+    
+    if ($validation->fails()) {
+        return json_encode('Error 400');
+    }
+
+    // Maintenance mode logic
+    
+    $variant = Variant::where('package', '=', $package)->first();
+
+    if($variant->is_maintenance) {
+      
+      return json_encode($variant->app->maintenance_message);
+
+    }
+      
+    $install = new Install;
+    
+    $install->instance_id = $instance_id;
+    
+    $install->variant_id = $variant->id;
+
+    $install->last_seen = $install->freshTimestamp();
+    
+    return $install->instance_id . ' ' . $install->last_seen;
+
+    if($install->save()) {
+      
+      // Extensibility - Fire afterSave Event
+      $afterSaveResponses = Event::fire('wwrf.mobileapp.afterSave', [$install]);
+      foreach($afterSaveResponses as $afterSaveResponse){
+        if(!$afterSaveResponse instanceof \Illuminate\Http\JsonResponse)
+          throw new ApplicationException('The event wwrf.mobileapp.afterSave can only return JsonResponse');
+
+        if($afterSaveResponse -> getStatusCode() == 400)
+          return json_encode('Error 400');
+      }
+
+      /*
+      * Return the user record on successful login
+      */
+      //return response()->json($user, 200);
+      $InstallSuccessMsg = 'Installed successfully';
+
+      // Converting the message into JSON format.
+      $InstallSuccessMsg = json_encode($InstallSuccessMsg);
+      
+      // Echo the message.
+      return $InstallSuccessMsg; 
+      //return response()->json($SuccessLoginMsg, 200);
+    }
+  }
+
+}

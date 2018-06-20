@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: App
+
+# Model Form Field configuration
+form: $/wwrf/mobileapp/models/app/fields.yaml
+
+# Model Class name
+modelClass: Wwrf\MobileApp\Models\App
+
+# Default redirect location
+defaultRedirect: wwrf/mobileapp/apps
+
+# Create page
+create:
+    title: Create App
+    redirect: wwrf/mobileapp/apps/update/:id
+    redirectClose: wwrf/mobileapp/apps
+
+# Update page
+update:
+    title: Edit App
+    redirect: wwrf/mobileapp/apps
+    redirectClose: wwrf/mobileapp/apps
+
+# Preview page
+preview:
+    title: Preview App
